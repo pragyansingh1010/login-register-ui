@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Register UI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .password-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .password-box input {
+            margin-right: 8px;
+        }
+
+        .password-box button {
+            padding: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .submit {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .switch {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .switch button {
+            border: none;
+            background: none;
+            color: blue;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 450px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2 id="title">Login</h2>
+
+        <form id="form">
+
+            <div id="nameField" style="display: none;">
+                <input type="text" id="name" placeholder="Name">
+            </div>
+
+            <input type="email" id="email" placeholder="Email">
+
+            <div class="password-box">
+                <input type="password" id="password" placeholder="Password">
+                <button type="button" onclick="showPassword()">Show</button>
+            </div>
+
+            <button class="submit" type="submit" id="submitButton">
+                Login
+            </button>
+
+        </form>
+
+        <p id="message"></p>
+
+        <div class="switch">
+            <span id="switchText">Don't have an account?</span>
+            <button onclick="switchForm()" id="switchButton">
+                Register
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let registerMode = false;
+
+        function switchForm() {
+            registerMode = !registerMode;
+
+            document.getElementById("title").innerHTML =
+                registerMode ? "Register" : "Login";
+
+            document.getElementById("nameField").style.display =
+                registerMode ? "block" : "none";
+
+            document.getElementById("submitButton").innerHTML =
+                registerMode ? "Register" : "Login";
+
+            document.getElementById("switchText").innerHTML =
+                registerMode ? "Already have an account?" : "Don't have an account?";
+
+            document.getElementById("switchButton").innerHTML =
+                registerMode ? "Login" : "Register";
+
+            document.getElementById("message").innerHTML = "";
+        }
+
+        function showPassword() {
+            let password = document.getElementById("password");
+            let button = event.target;
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.innerHTML = "Hide";
+            }
+            else {
+                password.type = "password";
+                button.innerHTML = "Show";
+            }
+        }
+
+        document.getElementById("form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            if (registerMode && name.trim() === "") {
+                document.getElementById("message").innerHTML =
+                    "Please enter your name.";
+                return;
+            }
+
+            if (email.trim() === "") {
+                document.getElementById("message").innerHTML =
+                    "Please enter your email.";
+                return;
+            }
+
+            if (password.length < 6) {
+                document.getElementById("message").innerHTML =
+                    "Password must be at least 6 characters.";
+                return;
+            }
+
+            document.getElementById("message").innerHTML =
+                registerMode
+                ? "Registration successful!"
+                : "Login successful!";
+        });
+    </script>
+
+</body>
+</html>
